@@ -13,6 +13,6 @@ to do the uploading automatically for you.
 For a detailed writeup, visit <a href="https://c0dew0rth.blogspot.com/2021/02/phonemapper.html">my blog</a>
 <br/>
 <p>
-Attribution:<br/>
+Attribution:<br/><br/>
 Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
 </p>
