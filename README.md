@@ -11,3 +11,8 @@ to do the uploading automatically for you.
 <img src="https://1.bp.blogspot.com/-VKgEzDXtVd4/YCTq1KxADZI/AAAAAAAABqc/Db7Qi1EDwcs6g51iDZZ2tqUpc97gKfgRgCLcBGAsYHQ/s1366/PhoneMapper_scrnsht.png"/>
 <br/>
 For a detailed writeup, visit <a href="https://c0dew0rth.blogspot.com/2021/02/phonemapper.html">my blog</a>
+<br/>
+<p>
+Attribution:<br/>
+Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+</p>
