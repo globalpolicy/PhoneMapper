@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,34 +18,42 @@ namespace PhoneMapper
 
             for (int i = 0; i < entries.Length; i++)
             {
-                string[] properties = entries[i].Split(new char[] { '\n' });
+                try
+                {
+                    string[] properties = entries[i].Split(new char[] { '\n' });
 
-                string firstline = properties[0];
-                string latitude = firstline.Split(new char[] { ',' })[0];
-                string longitude = firstline.Split(new char[] { ',' })[1];
+                    string firstline = properties[0];
+                    string latitude = firstline.Split(new char[] { ',' })[0];
+                    string longitude = firstline.Split(new char[] { ',' })[1];
 
-                string secondline = properties[1];
-                string thirdline = properties[2];
-                string date = secondline.Replace("Date=", "");
-                string time = thirdline.Replace("Time=", "");
+                    string secondline = properties[1];
+                    string thirdline = properties[2];
+                    string date = secondline.Replace("Date=", "");
+                    string time = thirdline.Replace("Time=", "");
 
-                string formattedDateTime = DateTime.Parse(date + " " + time).ToString("ddd | MMM d, yyyy | hh:mm:ss tt");
+                    string formattedDateTime = DateTime.Parse(date + " " + time).ToString("ddd | MMM d, yyyy | hh:mm:ss tt");
 
-                string fourthline = properties[3];
-                string battery = fourthline.Replace("Battery=", "");
+                    string fourthline = properties[3];
+                    string battery = fourthline.Replace("Battery=", "");
 
-                string fifthline = properties[4];
-                string uptime = fifthline.Replace("Uptime=", "");
+                    string fifthline = properties[4];
+                    string uptime = fifthline.Replace("Uptime=", "");
 
-                string sixthline = properties[5];
-                string internalFreeMB = sixthline.Replace("Internal free=", "");
+                    string sixthline = properties[5];
+                    string internalFreeMB = sixthline.Replace("Internal free=", "");
 
-                string seventhline = properties[6];
-                string internalTotalMB = seventhline.Replace("Internal total=", "");
+                    string seventhline = properties[6];
+                    string internalTotalMB = seventhline.Replace("Internal total=", "");
 
-                DataRow dataRow = new DataRow(formattedDateTime, latitude, longitude, battery, uptime);
+                    DataRow dataRow = new DataRow(formattedDateTime, latitude, longitude, battery, uptime);
 
-                table.Add(dataRow);
+                    table.Add(dataRow);
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine("Exception while processing an entry of the log file. Skipped the entry.");
+                }
+                
             }
 
             int lastNRows_;
