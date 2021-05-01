@@ -31,7 +31,7 @@ namespace PhoneMapper
         public ListViewItem ToListViewItem()
         {
             ListViewItem listViewItem;
-            listViewItem = new ListViewItem(new string[] { this.DateTime, this.Latitude, this.Longitude, this.Battery, this.Uptime });
+            listViewItem = new ListViewItem( new string[] { this.DateTime, this.Latitude, this.Longitude, this.Battery, this.Uptime,"" }); //mind the order of columns
             return listViewItem;
         }
     }
@@ -43,5 +43,6 @@ namespace PhoneMapper
         public bool ShowMarkerTooltips { get; set; }
         public int LoadLatestNum { get; set; }
         public string FileURL { get; set; }
+        public string HEREApiKey { get; set; }
     }
 }

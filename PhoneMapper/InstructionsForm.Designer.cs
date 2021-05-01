@@ -34,6 +34,7 @@ namespace PhoneMapper
             this.textBoxSampleLogFile = new System.Windows.Forms.TextBox();
             this.labelInstructions2 = new System.Windows.Forms.Label();
             this.textBoxMacroDroidWritetoFileText = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelInstructions
@@ -61,24 +62,35 @@ namespace PhoneMapper
             this.labelInstructions2.Name = "labelInstructions2";
             this.labelInstructions2.Size = new System.Drawing.Size(322, 26);
             this.labelInstructions2.TabIndex = 2;
-            this.labelInstructions2.Text = "The above format can be achieved using the following MacroDroid\r\n v5.8.15 \'Write " +
-    "to file\' action text:";
+            this.labelInstructions2.Text = "The above format can be achieved using the following MacroDroid\r\n v5.8.15 macro:";
             // 
             // textBoxMacroDroidWritetoFileText
             // 
             this.textBoxMacroDroidWritetoFileText.Location = new System.Drawing.Point(11, 286);
             this.textBoxMacroDroidWritetoFileText.Multiline = true;
             this.textBoxMacroDroidWritetoFileText.Name = "textBoxMacroDroidWritetoFileText";
+            this.textBoxMacroDroidWritetoFileText.ReadOnly = true;
             this.textBoxMacroDroidWritetoFileText.Size = new System.Drawing.Size(337, 63);
             this.textBoxMacroDroidWritetoFileText.TabIndex = 3;
-            this.textBoxMacroDroidWritetoFileText.Text = resources.GetString("textBoxMacroDroidWritetoFileText.Text");
+            this.textBoxMacroDroidWritetoFileText.Text = "https://drive.google.com/file/d/1-WgJPSXNmfVrT0OzeLhf6U0q9imKRWch/view?usp=sharin" +
+    "g";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 352);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(348, 78);
+            this.label1.TabIndex = 2;
+            this.label1.Text = resources.GetString("label1.Text");
             // 
             // InstructionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 354);
+            this.ClientSize = new System.Drawing.Size(361, 442);
             this.Controls.Add(this.textBoxMacroDroidWritetoFileText);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelInstructions2);
             this.Controls.Add(this.textBoxSampleLogFile);
             this.Controls.Add(this.labelInstructions);
@@ -102,5 +114,6 @@ namespace PhoneMapper
         private System.Windows.Forms.TextBox textBoxSampleLogFile;
         private System.Windows.Forms.Label labelInstructions2;
         private System.Windows.Forms.TextBox textBoxMacroDroidWritetoFileText;
+        private System.Windows.Forms.Label label1;
     }
 }

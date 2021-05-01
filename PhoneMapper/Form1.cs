@@ -4,9 +4,11 @@ using System.Windows.Forms;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 
 namespace PhoneMapper
 {
@@ -54,6 +56,7 @@ namespace PhoneMapper
             toolStripTextBoxDataNumbersToLoad.Text = settings.LoadLatestNum.ToString();
             recenterOnSelectionToolStripMenuItem.Checked = settings.RecenterOnSelection;
             showTooltipToolStripMenuItem.Checked = settings.ShowMarkerTooltips;
+            toolStripTextBoxHereAPIKey.Text = settings.HEREApiKey;
         }
 
         public void LoadData()
@@ -96,6 +99,41 @@ namespace PhoneMapper
                     mapFunctionsClass.putMarkerAt(i, dataRow.DateTime, Double.Parse(dataRow.Latitude), Double.Parse(dataRow.Longitude), GMarkerGoogleType.blue_pushpin);
                     mapFunctionsClass.setTooltipMode(showTooltipToolStripMenuItem.Checked ? MarkerTooltipMode.OnMouseOver : MarkerTooltipMode.Never);
                 };
+
+
+                //resolve latlong to address and add to the listview
+                Thread thread = new Thread(new ThreadStart(() =>
+                  {
+                      int listViewEntries = 0;
+                      this.Invoke(new Action(() => listViewEntries = listView1.Items.Count));
+
+                      for (int i = 0; i < listView1.Items.Count; i++)
+                      {
+                          string lat = "", lon = "";
+                          this.Invoke(new Action(() =>
+                          {
+                              lat = listView1.Items[i].SubItems[1].Text;
+                              lon = listView1.Items[i].SubItems[2].Text;
+                          }));
+                          try
+                          {
+                              string address = NetworkClass.GetAddressHERE(lat, lon, settings.HEREApiKey);
+                              this.Invoke(new Action(() =>
+                              {
+                                  listView1.Items[i].SubItems[5].Text = address;
+                              }));
+                          }
+                          catch (HttpRequestException webex)
+                          {
+                              Debug.WriteLine("Cannot load address name from latlong.");
+                          }
+
+                      }
+                  }));
+                thread.IsBackground = true;
+                thread.Start();
+
+
             }
             else
             {
@@ -116,44 +154,6 @@ namespace PhoneMapper
             toolStripStatusLabel1.Text = "No internet connection";
         }
 
-        private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            //place a red marker on the map corresponding to the selected rows of the listview
-
-            /* NOTE:
-             * This method is triggered once on every selection event, regardless of whether the selection is single or multiple
-             * (using CTRL/SHIFT keys)
-             */
-
-            ListView.SelectedListViewItemCollection selectedItems = listView1.SelectedItems;
-            List<(string, double, double)> latLngList = new List<(string, double, double)>();
-
-            for (int i = 0; i < selectedItems.Count; i++)
-            {
-                ListViewItem selectedItem = selectedItems[i];
-                double lat = Double.Parse(selectedItem.SubItems[1].Text);
-                double lng = Double.Parse(selectedItem.SubItems[2].Text);
-                string dateTime = selectedItem.SubItems[0].Text;
-
-                latLngList.Add((dateTime, lat, lng)); //add (datetime,lat,long) tuple to the list
-            }
-
-            mapFunctionsClass.putSelectionMarkerAt(latLngList, GMarkerGoogleType.yellow_small); //place selection markers from this list on the map
-
-            if (recenterOnSelectionToolStripMenuItem.Checked)
-            {
-                try
-                {
-                    mapFunctionsClass.centerMapAt(latLngList[latLngList.Count - 1].Item2, latLngList[latLngList.Count - 1].Item3); //center the map at the last position from the selected list
-                }
-                catch (ArgumentOutOfRangeException argumentOutOfRangeException)
-                {
-
-                }
-            }
-
-
-        }
 
 
 
@@ -263,6 +263,15 @@ namespace PhoneMapper
             }
         }
 
+        private void toolStripTextBoxHereAPIKey_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                settings.HEREApiKey = toolStripTextBoxHereAPIKey.Text;
+                settingsToolStripMenuItem.HideDropDown();
+            }
+        }
+
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string output = "";
@@ -278,5 +287,44 @@ namespace PhoneMapper
             Clipboard.SetText(output);
             toolStripStatusLabel2.Text = $"{listView1.SelectedItems.Count} rows copied to clipboard!";
         }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //place a marker on the map corresponding to the selected rows of the listview
+
+            /* NOTE:
+             * This method is triggered once on every selection event, regardless of whether the selection is single or multiple
+             * (using CTRL/SHIFT keys)
+             */
+
+            ListView.SelectedListViewItemCollection selectedItems = listView1.SelectedItems;
+            List<(string, double, double)> latLngList = new List<(string, double, double)>();
+
+            for (int i = 0; i < selectedItems.Count; i++)
+            {
+                ListViewItem selectedItem = selectedItems[i];
+                double lat = Double.Parse(selectedItem.SubItems[1].Text);
+                double lng = Double.Parse(selectedItem.SubItems[2].Text);
+                string dateTime = selectedItem.SubItems[0].Text;
+
+                latLngList.Add((dateTime, lat, lng)); //add (datetime,lat,long) tuple to the list
+            }
+
+            mapFunctionsClass.putSelectionMarkerAt(latLngList, GMarkerGoogleType.yellow_small); //place selection markers from this list on the map
+
+            if (recenterOnSelectionToolStripMenuItem.Checked)
+            {
+                try
+                {
+                    mapFunctionsClass.centerMapAt(latLngList[latLngList.Count - 1].Item2, latLngList[latLngList.Count - 1].Item3); //center the map at the last position from the selected list
+                }
+                catch (ArgumentOutOfRangeException argumentOutOfRangeException)
+                {
+
+                }
+            }
+        }
+
+
     }
 }

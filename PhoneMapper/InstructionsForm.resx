@@ -140,7 +140,12 @@ Uptime=821:37:11
 Internal free=24,032MB
 Internal total=51,709MB</value>
   </data>
-  <data name="textBoxMacroDroidWritetoFileText.Text" xml:space="preserve">
-    <value>Location=[last_loc_latlong]\nDate=[month] [dayofmonth],[year],[dayofweek]\nTime=[hour12]:[minute]:[second] [am_pm]\nBattery=[battery]%\nUptime=[uptime]\nInternal free=[storage_internal_free]\nInternal total=[storage_internal_total]\n</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>If you want the latlong coordinates to be resolved to corresponding 
+address names(reverse geocoding), you may want to create an account 
+@ https://www.developer.here.com and generate a REST API Key for 
+reverse geocoding operations. Upto 250,000 requests are possible per 
+month with a free tier account. Each entry in your log file loaded by 
+the program counts against this quota.</value>
   </data>
 </root>

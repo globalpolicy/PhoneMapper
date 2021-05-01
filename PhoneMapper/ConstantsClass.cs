@@ -10,6 +10,8 @@ namespace PhoneMapper
     {
         static readonly string _settingFileName = "PhoneMapperConfig.xml";
         static readonly string _defaultLogFileURL = "https://drive.google.com/uc?export=download&id=xxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        static readonly string _osmReverseAddressLookupURL = "https://nominatim.openstreetmap.org/reverse?lat=<ph1>&lon=<ph2>&format=jsonv2";
+        static readonly string _hereApiReverseAddressLookupURL = "https://revgeocode.search.hereapi.com/v1/revgeocode?at=<ph1>,<ph2>&lang=en-US&apiKey=<ph3>";
         static readonly int _defaultLoadLatestNum = 0;
         static readonly bool _defaultRecenterOnSelection = false;
         static readonly bool _defaultShowMarkerTooltips = false;
@@ -27,6 +29,22 @@ namespace PhoneMapper
             get
             {
                 return _defaultLogFileURL;
+            }
+        }
+
+        public static string OSMReverseAddressLookupURL
+        {
+            get
+            {
+                return _osmReverseAddressLookupURL;
+            }
+        }
+
+        public static string HereApiReverseAddressLookupURL
+        {
+            get
+            {
+                return _hereApiReverseAddressLookupURL;
             }
         }
 
